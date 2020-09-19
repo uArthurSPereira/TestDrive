@@ -1,4 +1,4 @@
-namespace backend.Models.Response
+namespace Backend.Models.Response
 {
     public class ErroResponse
     {
