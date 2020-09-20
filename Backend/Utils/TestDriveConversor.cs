@@ -8,6 +8,7 @@ namespace Backend.Utils
 {
     public class TestDriveConversor
     {
+        Models.mydbContext ctx = new Models.mydbContext();
         public Models.TbCliente ParaTabela(Models.Request.ClienteRequest req)
         {
             Models.TbCliente tb = new Models.TbCliente();
@@ -46,10 +47,13 @@ namespace Backend.Utils
         public Models.TbAgendamento AgendaTabela(Models.Request.AgendamentoRequest req)
         {
             Models.TbAgendamento tb = new Models.TbAgendamento();
+            Models.TbCliente cliente = ctx.TbCliente.FirstOrDefault(x => x.NmCliente == req.NmCliente);
+            Models.TbCarro carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca && x.DsModelo == req.DsModelo);
+            Models.TbFuncionario funcionario = ctx.TbFuncionario.FirstOrDefault(x => x.NmFuncionario == req.NmFuncionario);
 
-            tb.IdCarro = req.IdCarro;
-            tb.IdCliente = req.IdCliente;
-            tb.IdFuncionario = req.IdFuncionario;
+            tb.IdFuncionario = funcionario.IdFuncionario;
+            tb.IdCliente = cliente.IdCliente;
+            tb.IdCarro = carro.IdCarro;
             tb.DsSituacao = req.Situacao;
             tb.DtAgendamento = req.Agendamento;
 
