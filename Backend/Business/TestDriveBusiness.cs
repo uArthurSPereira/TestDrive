@@ -8,9 +8,9 @@ namespace Backend.Business
     public class TestDriveBusiness
     {
         Database.TestDriveDatabase db = new Database.TestDriveDatabase();
-        public List<Models.TbCliente> Listar(int id)
+        public List<Models.TbAgendamento> Listar(int id)
         {
-            List<Models.TbCliente> lista = new List<Models.TbCliente>();
+            List<Models.TbAgendamento> lista = new List<Models.TbAgendamento>();
             if(lista == null)
                 throw new System.Exception("Nenhum Cliente Encontrado");
             

@@ -8,12 +8,10 @@ namespace Backend.Database
     public class TestDriveDatabase
     {
         Models.mydbContext ctx = new Models.mydbContext();
-        public List<Models.TbCliente> Listar(int id)
+        public List<Models.TbAgendamento> Listar(int id)
         {
-            List<Models.TbCliente> lista = new List<Models.TbCliente>();
-            lista = lista.Where(x => x.IdCliente == id).ToList();
-
-            return lista;
+            return ctx.TbAgendamento.Where(x => x.IdCliente == id).ToList();
+            
         }
 
         public Models.TbCliente Cadastrar(Models.TbCliente tb)

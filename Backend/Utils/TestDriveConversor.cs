@@ -48,7 +48,7 @@ namespace Backend.Utils
         {
             Models.TbAgendamento tb = new Models.TbAgendamento();
             Models.TbCliente cliente = ctx.TbCliente.FirstOrDefault(x => x.NmCliente == req.NmCliente);
-            Models.TbCarro carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca && x.DsModelo == req.DsModelo);
+            Models.TbCarro carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca || x.DsModelo == req.DsModelo);
             Models.TbFuncionario funcionario = ctx.TbFuncionario.FirstOrDefault(x => x.NmFuncionario == req.NmFuncionario);
 
             tb.IdFuncionario = funcionario.IdFuncionario;

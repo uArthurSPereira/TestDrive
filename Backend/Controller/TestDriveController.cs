@@ -37,13 +37,31 @@ namespace Backend.Controller
         [HttpPost("Agendar")]
         public ActionResult<Models.Response.AgendamentoResponse> Agendar(Models.Request.AgendamentoRequest req)
         {
-             try 
+            try 
             {
                 Models.TbAgendamento tb = conv.AgendaTabela(req);
 
                 busi.Agendar(tb);
 
                 Models.Response.AgendamentoResponse resp = conv.AgendaResponse(tb);
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(
+                    new Models.Response.ErroResponse(404, ex.Message)
+                );
+            }
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<List<Models.Response.AgendamentoResponse>> Consultar(int id)
+        {
+            try 
+            {
+                List<Models.TbAgendamento> tb = busi.Listar(id);
+
+                List<Models.Response.AgendamentoResponse> resp = conv.AgendasResponse(tb);
                 return resp;
             }
             catch (Exception ex)
