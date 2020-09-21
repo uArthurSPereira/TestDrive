@@ -14,7 +14,7 @@ namespace Backend.Models
         }
 
         [Key]
-        [Column("id_carro", TypeName = "int(11)")]
+        [Column("id_carro")]
         public int IdCarro { get; set; }
         [Column("ds_modelo", TypeName = "varchar(50)")]
         public string DsModelo { get; set; }
@@ -22,7 +22,7 @@ namespace Backend.Models
         public string DsMarca { get; set; }
         [Column("ds_placa", TypeName = "varchar(50)")]
         public string DsPlaca { get; set; }
-        [Column("dt_ano", TypeName = "year(4)")]
+        [Column("dt_ano", TypeName = "year")]
         public short? DtAno { get; set; }
 
         [InverseProperty("IdCarroNavigation")]

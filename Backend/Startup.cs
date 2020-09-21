@@ -36,6 +36,11 @@ namespace Backend
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(
+                x => x.AllowAnyOrigin()
+                      .AllowAnyHeader()
+            );
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

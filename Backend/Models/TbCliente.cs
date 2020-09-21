@@ -14,7 +14,7 @@ namespace Backend.Models
         }
 
         [Key]
-        [Column("id_cliente", TypeName = "int(11)")]
+        [Column("id_cliente")]
         public int IdCliente { get; set; }
         [Column("nm_cliente", TypeName = "varchar(100)")]
         public string NmCliente { get; set; }
@@ -22,7 +22,7 @@ namespace Backend.Models
         public string DsCnh { get; set; }
         [Column("ds_cpf", TypeName = "varchar(50)")]
         public string DsCpf { get; set; }
-        [Column("id_login", TypeName = "int(11)")]
+        [Column("id_login")]
         public int? IdLogin { get; set; }
 
         [ForeignKey(nameof(IdLogin))]

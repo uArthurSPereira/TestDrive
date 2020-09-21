@@ -14,11 +14,11 @@ namespace Backend.Models
         }
 
         [Key]
-        [Column("id_funcionario", TypeName = "int(11)")]
+        [Column("id_funcionario")]
         public int IdFuncionario { get; set; }
         [Column("nm_funcionario", TypeName = "varchar(100)")]
         public string NmFuncionario { get; set; }
-        [Column("id_login", TypeName = "int(11)")]
+        [Column("id_login")]
         public int? IdLogin { get; set; }
 
         [ForeignKey(nameof(IdLogin))]

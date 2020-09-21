@@ -9,13 +9,13 @@ namespace Backend.Models
     public partial class TbAgendamento
     {
         [Key]
-        [Column("id_agendamento", TypeName = "int(11)")]
+        [Column("id_agendamento")]
         public int IdAgendamento { get; set; }
-        [Column("id_cliente", TypeName = "int(11)")]
+        [Column("id_cliente")]
         public int? IdCliente { get; set; }
-        [Column("id_funcionario", TypeName = "int(11)")]
+        [Column("id_funcionario")]
         public int? IdFuncionario { get; set; }
-        [Column("id_carro", TypeName = "int(11)")]
+        [Column("id_carro")]
         public int? IdCarro { get; set; }
         [Column("dt_agendamento", TypeName = "datetime")]
         public DateTime? DtAgendamento { get; set; }

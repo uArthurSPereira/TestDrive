@@ -25,7 +25,8 @@ namespace Backend.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("server=localhost;user id=root;password=diego06171825;database=mydb", x => x.ServerVersion("5.7.29-mysql"));
+                //optionsBuilder.UseMySql("server=localhost;user id=root;password=diego06171825;database=mydb", x => x.ServerVersion("5.7.29-mysql"));
+                optionsBuilder.UseMySql("server=localhost;user id=root;password=@tutubazz123;database=mydb", x => x.ServerVersion("8.0.19-mysql"));
             }
         }
 
@@ -46,8 +47,8 @@ namespace Backend.Models
                     .HasName("id_funcionario");
 
                 entity.Property(e => e.DsSituacao)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.HasOne(d => d.IdCarroNavigation)
                     .WithMany(p => p.TbAgendamento)
@@ -71,16 +72,16 @@ namespace Backend.Models
                     .HasName("PRIMARY");
 
                 entity.Property(e => e.DsMarca)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.DsModelo)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.DsPlaca)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
             });
 
             modelBuilder.Entity<TbCliente>(entity =>
@@ -92,16 +93,16 @@ namespace Backend.Models
                     .HasName("id_login");
 
                 entity.Property(e => e.DsCnh)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.DsCpf)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.NmCliente)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.HasOne(d => d.IdLoginNavigation)
                     .WithMany(p => p.TbCliente)
@@ -118,8 +119,8 @@ namespace Backend.Models
                     .HasName("id_login");
 
                 entity.Property(e => e.NmFuncionario)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.HasOne(d => d.IdLoginNavigation)
                     .WithMany(p => p.TbFuncionario)
@@ -133,16 +134,16 @@ namespace Backend.Models
                     .HasName("PRIMARY");
 
                 entity.Property(e => e.DsEmail)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.DsPerfil)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
 
                 entity.Property(e => e.DsSenha)
-                    .HasCharSet("latin1")
-                    .HasCollation("latin1_swedish_ci");
+                    .HasCharSet("utf8mb4")
+                    .HasCollation("utf8mb4_0900_ai_ci");
             });
 
             OnModelCreatingPartial(modelBuilder);
