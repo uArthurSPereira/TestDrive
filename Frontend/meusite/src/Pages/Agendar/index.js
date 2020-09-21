@@ -11,16 +11,18 @@ export default function Agendar() {
     const [marca, setMarca] = useState('')
     const [modelo, setModelo] = useState('')
     const [agendamento, setAgendamento] = useState('')
+    const request = {
+        cliente,
+        funcionario,
+        marca,
+        modelo,
+        agendamento
+    };
 
     const salvarClick = async () => {
         const resp = await
-            api.cadastrar({
-                cliente: NmCliente,
-                funcionario: NmFuncionario,
-                marca: DsMarca,
-                modelo: DsModelo,
-                data: Agendamento
-            });  
+            api.cadastrar(request); 
+        return resp; 
     }
 
     return(

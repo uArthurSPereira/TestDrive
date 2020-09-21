@@ -7,12 +7,12 @@ const api = axios.create({
 export default class TestDriveApi {
 
     async cadastrar(td) {
-        const resp = await api.post('/testdrive', td);
+        const resp = await api.post('/testdrive/Agendar', td);
         return resp;
     }
 
-    async consultar() {
-        const resp = await api.get('/testdrive');
+    async consultar(clienteId) {
+        const resp = await api.get(`/testdrive/${clienteId}`);
         return resp.data;
     }
 }

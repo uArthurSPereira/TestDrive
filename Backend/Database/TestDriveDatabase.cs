@@ -7,6 +7,9 @@ namespace Backend.Database
 {
     public class TestDriveDatabase
     {
+        Models.TbCarro carro = new Models.TbCarro();
+        Models.TbFuncionario funcionario = new Models.TbFuncionario();
+        Models.TbCliente cliente = new Models.TbCliente();
         Models.mydbContext ctx = new Models.mydbContext();
         public List<Models.TbAgendamento> Listar(int id)
         {
