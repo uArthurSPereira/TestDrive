@@ -9,11 +9,7 @@ namespace Backend.Business
     {
         Database.TestDriveDatabase db = new Database.TestDriveDatabase();
         public List<Models.TbAgendamento> Listar(int id)
-        {
-            List<Models.TbAgendamento> lista = new List<Models.TbAgendamento>();
-            if(lista == null)
-                throw new System.Exception("Nenhum Cliente Encontrado");
-            
+        {            
             return db.Listar(id);
         }
 

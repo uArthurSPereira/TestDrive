@@ -8,6 +8,9 @@ namespace Backend.Utils
 {
     public class TestDriveConversor
     {
+        Models.TbCarro carro = new Models.TbCarro();
+        Models.TbFuncionario funcionario = new Models.TbFuncionario();
+        Models.TbCliente cliente = new Models.TbCliente();
         Models.mydbContext ctx = new Models.mydbContext();
         public Models.TbCliente ParaTabela(Models.Request.ClienteRequest req)
         {
@@ -47,14 +50,13 @@ namespace Backend.Utils
         public Models.TbAgendamento AgendaTabela(Models.Request.AgendamentoRequest req)
         {
             Models.TbAgendamento tb = new Models.TbAgendamento();
-            Models.TbCliente cliente = ctx.TbCliente.FirstOrDefault(x => x.NmCliente == req.NmCliente);
-            Models.TbCarro carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca || x.DsModelo == req.DsModelo);
-            Models.TbFuncionario funcionario = ctx.TbFuncionario.FirstOrDefault(x => x.NmFuncionario == req.NmFuncionario);
+            cliente = ctx.TbCliente.FirstOrDefault(x => x.NmCliente == req.NmCliente);
+            carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca || x.DsModelo == req.DsModelo);
+            funcionario = ctx.TbFuncionario.FirstOrDefault(x => x.NmFuncionario == req.NmFuncionario);
 
             tb.IdFuncionario = funcionario.IdFuncionario;
             tb.IdCliente = cliente.IdCliente;
             tb.IdCarro = carro.IdCarro;
-            tb.DsSituacao = req.Situacao;
             tb.DtAgendamento = req.Agendamento;
 
             return tb;
@@ -63,13 +65,17 @@ namespace Backend.Utils
         public Models.Response.AgendamentoResponse AgendaResponse(Models.TbAgendamento tbs)
         {
             Models.Response.AgendamentoResponse resp = new Models.Response.AgendamentoResponse();
+            Models.Request.AgendamentoRequest req = new Models.Request.AgendamentoRequest();
 
             resp.IdAgendamento = tbs.IdAgendamento;
-            resp.IdCliente = tbs.IdCliente;
-            resp.IdCarro = tbs.IdCarro;
-            resp.IdFuncionario = tbs.IdFuncionario;
+            cliente = ctx.TbCliente.First(x => x.IdCliente == tbs.IdCliente);
+            resp.NmCliente = cliente.NmCliente;
+            carro = ctx.TbCarro.First(x => x.IdCarro == tbs.IdCarro);
+            resp.Marca = carro.DsMarca;
+            resp.Modelo = carro.DsModelo;
+            funcionario = ctx.TbFuncionario.First(x => x.IdFuncionario == tbs.IdFuncionario);
+            resp.NmFuncionario = funcionario.NmFuncionario;
             resp.Agendamento = tbs.DtAgendamento;
-            resp.Situacao = tbs.DsSituacao;
 
             return resp;
         }
