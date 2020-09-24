@@ -12,18 +12,23 @@ namespace Backend.Controller
         Business.TestDriveBusiness busi = new Business.TestDriveBusiness();
         Utils.TestDriveConversor conv = new Utils.TestDriveConversor();
 
-        [HttpPost]
-        public ActionResult<Models.Response.ClienteResponse> Cadastrar(Models.Request.ClienteRequest req)
+
+        [HttpPost("Agendar")]
+        public ActionResult<Models.Response.AgendamentoResponse> AgendarTest(Models.Request.AgendamentoRequest req)
         {
             try 
             {
-                Models.TbCliente tb = conv.ParaTabela(req);
+                int idCliente = busi.ConsultarClientePorLogin(req.IdLogin);
 
-                busi.Cadastrar(tb);
+                Models.TbAgendamento tb = conv.AgendaTabela(req, idCliente);
 
-                Models.Response.ClienteResponse resp = conv.ParaResponse(tb);
+                tb = busi.CadastrarClienteAgendamento(tb);
 
-                return resp; 
+                string nomeCarroPlaca = busi.ConsultarPlacaCarroPorId(tb.IdCarro);
+
+                Models.Response.AgendamentoResponse resp = conv.AgendaResponse(tb, nomeCarroPlaca);
+
+                return resp;
             }
             catch (Exception ex)
             {
@@ -33,18 +38,16 @@ namespace Backend.Controller
             }
         }
 
-
-        [HttpPost("Agendar")]
-        public ActionResult<Models.Response.AgendamentoResponse> Agendar(Models.Request.AgendamentoRequest req)
+        [HttpGet("{IdLogin}")]
+        public ActionResult<List<Models.Response.ConsultaClienteResponse>> ConsultarAgendamento(int IdLogin)
         {
             try 
             {
-                Models.TbAgendamento tb = conv.AgendaTabela(req);
+                List<Models.TbAgendamento> tbs = busi.ConsultarClientePorAgendamento(IdLogin);
 
-                busi.Agendar(tb);
+                List<Models.Response.ConsultaClienteResponse> resps = conv.ConsultarClienteAgendamentoResponse(tbs);
 
-                Models.Response.AgendamentoResponse resp = conv.AgendaResponse(tb);
-                return resp;
+                return resps;
             }
             catch (Exception ex)
             {
@@ -54,22 +57,26 @@ namespace Backend.Controller
             }
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<List<Models.Response.AgendamentoResponse>> Consultar(int id)
+        [HttpPost("Login")]
+        public ActionResult<Models.Response.LoginResponse> Login(Models.Request.LoginRequest req)
         {
-            try 
+            try
             {
-                List<Models.TbAgendamento> tb = busi.Listar(id);
+                Models.TbLogin tb = conv.ParaLoginTabela(req);
 
-                List<Models.Response.AgendamentoResponse> resp = conv.AgendasResponse(tb);
+                tb = busi.Login(tb);
+
+                Models.Response.LoginResponse resp = conv.ParaLoginResponse(tb);
+
                 return resp;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 return BadRequest(
-                    new Models.Response.ErroResponse(404, ex.Message)
+                    new Models.Response.ErroResponse(400, ex.Message)
                 );
             }
+            
         }
 
     }

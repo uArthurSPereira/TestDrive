@@ -7,36 +7,81 @@ namespace Backend.Business
 {
     public class TestDriveBusiness
     {
-        Database.TestDriveDatabase db = new Database.TestDriveDatabase();
-        public List<Models.TbAgendamento> Listar(int id)
-        {            
-            return db.Listar(id);
+        Database.DatabaseTestDrive db = new Database.DatabaseTestDrive();
+
+        public int ConsultarClientePorLogin(int IdLogin)
+        {
+            if(IdLogin <= 0)
+                throw new Exception("Usuario não existe.");
+
+            int IdCliente = db.ConsultarIdClientePorLogin(IdLogin);
+
+            if(IdCliente <= 0)
+                throw new Exception("Usuario não existe.");
+
+            return IdCliente;
+        }
+        public Models.TbLogin Login(Models.TbLogin tb)
+        {
+            if(tb.DsEmail == string.Empty || !tb.DsEmail.Contains('@'))
+                    throw new Exception ("Email Invalido.");
+            if(tb.DsSenha == string.Empty)
+                    throw new Exception("Senha Invalida.");
+
+            db.Login(tb);
+
+            if(tb.IdLogin <= 0 || tb.DsPerfil == string.Empty)
+                    throw new Exception("Usuario não existe.");
+            if(tb.TbCliente.Any() ? tb.TbCliente.FirstOrDefault().NmCliente == string.Empty
+                                  : tb.TbFuncionario.FirstOrDefault().NmFuncionario == string.Empty)
+                    throw new Exception("Usuario não existe.");
+
+            return tb;
+
         }
 
-        public Models.TbCliente Cadastrar (Models.TbCliente tb)
+        public Models.TbAgendamento CadastrarClienteAgendamento(Models.TbAgendamento tb)
         {
-            if (string.IsNullOrEmpty(tb.NmCliente))
-                throw new Exception("Nome é obrigatório.");
-            if (string.IsNullOrEmpty(tb.DsCnh))
-                throw new Exception("CNH é obrigatório.");
-            if (string.IsNullOrEmpty(tb.DsCpf))
-                throw new Exception("CPF é obrigatório.");
+            if(tb.DtAgendamento <= DateTime.Now ||
+               tb.DtAgendamento == null ||
+               tb.DtAgendamento >= DateTime.Now.AddMonths(2))
+                throw new Exception("Data Invalida.");
+
+            if(tb.IdCarro <= 0)
+                throw new Exception("Carro invalido.");
             
-            return db.Cadastrar(tb);
+            if(tb.IdCliente <= 0)
+                throw new Exception("Usuario invalido.");
+
+            tb = db.CadastrarClienteAgendamento(tb);
+
+            return tb;
         }
 
-        public Models.TbAgendamento Agendar (Models.TbAgendamento tb)
+        public List<Models.TbAgendamento> ConsultarClientePorAgendamento(int IdLogin)
         {
-            if (tb.IdCarro <= 0)
-                throw new Exception("Carro é obrigatório.");
-            if (tb.IdCliente <= 0)
-                throw new Exception("Cliente é obrigatório.");
-            if (tb.IdFuncionario <= 0)
-                throw new Exception("Funcionario é obrigatório.");
-            if(tb.DtAgendamento < DateTime.Now)
-                throw new Exception("Data Invalida");
+            if(IdLogin <= 0)
+                throw new Exception("Usuario não existe.");
+
+            List<Models.TbAgendamento> tbs = db.ConsultarClientePorAgendamento(IdLogin);
+
+            if(tbs.Count == 0 || tbs == null)
+                throw new Exception("Não há test-drive agendado.");
+
+            return tbs;
+        }
+
+        public string ConsultarPlacaCarroPorId(int? IdCarro)
+        {
+            if(IdCarro <= 0)
+                throw new Exception("Carro Invalido.");
             
-            return db.Agendar(tb);
+            string nomePlacaCarro = db.ConsultarPlacaCarroPorId(IdCarro);
+
+            if(nomePlacaCarro == string.Empty)
+                throw new Exception("Carro e Placa não identificados.");
+
+            return nomePlacaCarro;
         }
     }
 }

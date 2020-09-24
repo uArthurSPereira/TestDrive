@@ -39,7 +39,7 @@ export default function Consultar() {
 
                     <tbody>
                         {registros.map(item =>
-                            <tr key={item.id}>
+                            <tr key={item.IdAgendamento}>
                                 <th># {item.IdAgendamento}</th>
                                 <td>{item.NmCliente}</td>
                                 <td>{item.NmFuncionario}</td>

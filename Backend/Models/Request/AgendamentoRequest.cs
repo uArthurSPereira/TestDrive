@@ -4,10 +4,9 @@ namespace Backend.Models.Request
 {
     public class AgendamentoRequest
     {
-        public string NmCliente {get; set;}
-        public string NmFuncionario {get; set;}
-        public string DsMarca {get; set;}
-        public string DsModelo {get; set;}
-        public DateTime? Agendamento {get; set;}
+        public DateTime? Data { get; set; }
+        public string Hora { get; set; }
+        public int IdLogin { get; set; }
+        public int IdCarro { get; set; }
     }
 }

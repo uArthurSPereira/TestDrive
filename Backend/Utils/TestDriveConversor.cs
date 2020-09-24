@@ -8,87 +8,68 @@ namespace Backend.Utils
 {
     public class TestDriveConversor
     {
-        Models.TbCarro carro = new Models.TbCarro();
-        Models.TbFuncionario funcionario = new Models.TbFuncionario();
-        Models.TbCliente cliente = new Models.TbCliente();
-        Models.mydbContext ctx = new Models.mydbContext();
-        public Models.TbCliente ParaTabela(Models.Request.ClienteRequest req)
-        {
-            Models.TbCliente tb = new Models.TbCliente();
-
-            tb.NmCliente = req.Nome;
-            tb.DsCnh = req.CNH;
-            tb.DsCpf = req.CPF;
-
-            return tb;
-        }
-
-        public Models.Response.ClienteResponse ParaResponse(Models.TbCliente tbs)
-        {
-            Models.Response.ClienteResponse resp = new Models.Response.ClienteResponse();
-
-            resp.Id = tbs.IdCliente;
-            resp.Nome = tbs.NmCliente;
-            resp.CNH = tbs.DsCnh;
-            resp.CPF = tbs.DsCpf;
-            resp.IdLogin = tbs.IdLogin;
-
-            return resp;
-        }
-
-        public List<Models.Response.ClienteResponse> ListaResponse (List<Models.TbCliente> tbs)
-        {
-            List<Models.Response.ClienteResponse> resp = new List<Models.Response.ClienteResponse>();
-
-            tbs.ForEach(x => 
-                resp.Add(this.ParaResponse(x))
-            );
-
-            return resp;
-        }
-
-        public Models.TbAgendamento AgendaTabela(Models.Request.AgendamentoRequest req)
+        public Models.TbAgendamento AgendaTabela(Models.Request.AgendamentoRequest req, int idCliente)
         {
             Models.TbAgendamento tb = new Models.TbAgendamento();
-            cliente = ctx.TbCliente.FirstOrDefault(x => x.NmCliente == req.NmCliente);
-            carro = ctx.TbCarro.FirstOrDefault(x => x.DsMarca == req.DsMarca || x.DsModelo == req.DsModelo);
-            funcionario = ctx.TbFuncionario.FirstOrDefault(x => x.NmFuncionario == req.NmFuncionario);
-
-            tb.IdFuncionario = funcionario.IdFuncionario;
-            tb.IdCliente = cliente.IdCliente;
-            tb.IdCarro = carro.IdCarro;
-            tb.DtAgendamento = req.Agendamento;
+            
+            tb.IdCliente = idCliente;
+            tb.IdFuncionario = null;
+            tb.IdCarro = req.IdCarro;
+            int hora = Convert.ToInt32(req.Hora.Substring(0, 2));
+            int minuto = Convert.ToInt32(req.Hora.Substring(3, 2));
+            tb.DtAgendamento = req.Data;
+            tb.DsSituacao = "Aguarde";
 
             return tb;
         }
 
-        public Models.Response.AgendamentoResponse AgendaResponse(Models.TbAgendamento tbs)
+        public Models.Response.AgendamentoResponse AgendaResponse(Models.TbAgendamento tbs, string Carro)
         {
             Models.Response.AgendamentoResponse resp = new Models.Response.AgendamentoResponse();
-            Models.Request.AgendamentoRequest req = new Models.Request.AgendamentoRequest();
 
-            resp.IdAgendamento = tbs.IdAgendamento;
-            cliente = ctx.TbCliente.First(x => x.IdCliente == tbs.IdCliente);
-            resp.NmCliente = cliente.NmCliente;
-            carro = ctx.TbCarro.First(x => x.IdCarro == tbs.IdCarro);
-            resp.Marca = carro.DsMarca;
-            resp.Modelo = carro.DsModelo;
-            funcionario = ctx.TbFuncionario.First(x => x.IdFuncionario == tbs.IdFuncionario);
-            resp.NmFuncionario = funcionario.NmFuncionario;
-            resp.Agendamento = tbs.DtAgendamento;
+            resp.Data = tbs.DtAgendamento;
+            resp.Carro = Carro;
+            return resp;
+        }
+
+        public Models.TbLogin ParaLoginTabela(Models.Request.LoginRequest req)
+        {
+            Models.TbLogin tb = new Models.TbLogin();
+            tb.DsEmail = req.Email;
+            tb.DsSenha = req.Senha;
+
+            return tb;
+        }  
+
+        public Models.Response.LoginResponse ParaLoginResponse(Models.TbLogin tb)
+        {
+            Models.Response.LoginResponse resp = new Models.Response.LoginResponse();
+
+            resp.Login = tb.IdLogin;
+            resp.Perfil = tb.DsPerfil;
+            resp.Nome = tb.TbCliente.Any() ? tb.TbCliente.FirstOrDefault() ?.NmCliente 
+                                           : tb.TbFuncionario.FirstOrDefault() ?.NmFuncionario;
 
             return resp;
         }
 
-        public List<Models.Response.AgendamentoResponse> AgendasResponse (List<Models.TbAgendamento> tbs)
+        public List<Models.Response.ConsultaClienteResponse> ConsultarClienteAgendamentoResponse(List<Models.TbAgendamento> tbs)
         {
-            List<Models.Response.AgendamentoResponse> resp = new List<Models.Response.AgendamentoResponse>();
+            List<Models.Response.ConsultaClienteResponse> resps = new List<Models.Response.ConsultaClienteResponse>();
 
-            tbs.ForEach(x => 
-                resp.Add(this.AgendaResponse(x))
-            );
+            foreach(Models.TbAgendamento tb in tbs)
+            {
+                Models.Response.ConsultaClienteResponse resp = new Models.Response.ConsultaClienteResponse();
 
-            return resp;
-        }        
+                resp.Carro = string.Concat(tb.IdCarroNavigation.DsMarca, '/', tb.IdCarroNavigation.DsPlaca);
+                resp.DataHora = tb.DtAgendamento;
+                resp.Funcionario = tb.IdFuncionarioNavigation == null ? "Sem Funcionario" : tb.IdFuncionarioNavigation.NmFuncionario;
+                resp.Status = tb.DsSituacao;
+
+                resps.Add(resp);
+            }
+
+            return resps;
+        }    
     }
 }

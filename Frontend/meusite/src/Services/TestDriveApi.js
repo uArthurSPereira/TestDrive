@@ -6,13 +6,13 @@ const api = axios.create({
 
 export default class TestDriveApi {
 
-    async cadastrar(td) {
+    async Agendar(tb) {
         const resp = await api.post('/testdrive/Agendar', td);
         return resp;
     }
 
-    async consultar(clienteId) {
-        const resp = await api.get(`/testdrive/${clienteId}`);
+    async consultar(id) {
+        const resp = await api.get(`/testdrive/${id}`);
         return resp.data;
     }
 }
