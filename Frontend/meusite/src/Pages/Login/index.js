@@ -1,40 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState }  from "react";
 
-import TestDriveApi from '../../Services/TestDriveApi';
-
-import './login.css';
+//import api
+import TestDriveApi from '../../services/TestDriveApi';
+import { useHistory } from "react-router-dom";
 
 const api = new TestDriveApi();
 
-export default function Agendar() {
+export default function Inicial() {
 
-    return(
-        <div className="login">
-            <div className="login-container">
+  const navegation = useHistory();
 
-                <h1 className="login-title">
-                    <i>Login</i>
-                </h1>
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const loginRequest = { email, senha };
 
-                <p>
-                    <i>Realize o login para agendar o seu test-drive.</i>
-                </p>
+  const loginClick = async () => {
+    try {
+      const resp = await api.Login(loginRequest);
+      console.log(resp);
+      if(resp.permissao === 'cliente') {
+        navegation.push({
+          pathname: '/Agendar',
+          state: {
+             nome: resp.nome,
+             permissao: resp.permissao,
+             login: resp.login
+          }
+        });
+      }
+      // else esperando pela parte do funcionario
 
-                <div className="login-input">
-                    <input type="text" placeholder="Login"
-                />
-                </div>
+      return resp;
+    } catch(e) {
+      console.log(e.response.data.message);
+    }
+  }
 
-                <div className="login-input">
-                    <input type="password" placeholder="Password"
-                />
-                </div>
-
-                <div className="login-button">
-                    <button>Logar</button>
-                </div>
-
-            </div>
+  return (
+    <div>
+      <h1> Test Drive </h1>
+      <div>
+        Login
+        <div>
+          <input type="email" placeholder="E-mail" onChange={(e) => {setEmail(e.target.value)}}/>
+          <input type="password" placeholder="Senha" onChange={(e) => {setSenha(e.target.value)}}/>
         </div>
-    )
+        <button onClick={loginClick}>Entrar</button>
+      </div>
+    </div>
+  );
 }

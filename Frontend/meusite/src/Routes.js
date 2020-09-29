@@ -2,8 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Login from './Pages/Login'
-import Inicial from './Pages/Inicial'
-import ConsultarAgendamento from './Pages/ConsultarAgendamento'
+import Consultar from './Pages/ConsultarAgendamento'
 import Agendar from './Pages/Agendar'
 
 function Routes() {  
@@ -11,9 +10,8 @@ function Routes() {
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact={true} component={Login} />
-                <Route path="/Home" component={Inicial} />
-                <Route path="/ConsultarAgendamento" component={ConsultarAgendamento} />
-                <Route path="/Agendar" component={Agendar} />
+                <Route path="/meu-test" component={Consultar} />
+                <Route path="/agendar" component={Agendar} />
             </Switch>
         </BrowserRouter>
     );

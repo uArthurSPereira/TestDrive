@@ -1,19 +1,24 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'http://localhost:5000/testdrive'
 })
 
 export default class TestDriveApi {
 
-    async login(td) {
-        const resp = await api.post('/testdrive/Login', td);
-        return resp;
+    async Login(loginRequest) {
+        const resp = await api.post("", loginRequest);
+        return resp.data;
     }
 
-    async agendar(td) {
-        const resp = await api.post('/testdrive/Agendar', td);
-        return resp;
+    async BuscarCarros() {
+        const resp = await api.get("/consultar/carro");
+        return resp.data;
+    }
+
+    async CadastrarAgendamento(agendamentoRequest) {
+        const resp = await api.post('/testdrive/Agendar', agendamentoRequest);
+        return resp.data;
     }
 
     async consultar(id) {
