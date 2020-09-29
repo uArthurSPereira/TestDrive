@@ -4,6 +4,38 @@ use mydb;
 
 show tables;
 
+select*from tb_agendamento;
+
+insert into tb_login(ds_email,ds_senha,ds_perfil)
+values ('test123@gmail.com','test123','Cliente');
+
+insert into tb_login(ds_email,ds_senha,ds_perfil)
+values ('funcionariotest123@gmail.com','funcionariotest123','Funcionario');
+
+insert into tb_login(ds_email,ds_senha,ds_perfil)
+values ('cliente2test@gmail.com','cliente2test','Cliente');
+
+insert into tb_cliente(nm_cliente,ds_cnh,ds_cpf,id_login)
+values('Arthur test','12345678900','123.456.789-10',1);
+
+insert into tb_cliente(nm_cliente,ds_cnh,ds_cpf,id_login)
+values('Bruno test','00000000000','000.000.000-00',3);
+
+insert into tb_funcionario(nm_funcionario,id_login)
+value('Diego test', '2');
+
+insert into tb_carro(ds_marca,ds_modelo,ds_placa,dt_ano)
+value('Chevrolet','Cruze','tst1234','2018');
+
+insert into tb_carro(ds_marca,ds_modelo,ds_placa,dt_ano)
+value('Fiat','Toro','hoj1234','2020');
+
+insert into tb_agendamento(id_cliente,id_funcionario,id_carro,dt_agendamento,ds_situacao)
+value(1,1,1,'2020-09-29','Aprovado');
+
+insert into tb_agendamento(id_cliente,id_funcionario,id_carro,dt_agendamento,ds_situacao)
+value(2,1,2,'2020-10-30','Em Análise');
+
 create table tb_login(
 id_login int primary key auto_increment,
 ds_email varchar(150),

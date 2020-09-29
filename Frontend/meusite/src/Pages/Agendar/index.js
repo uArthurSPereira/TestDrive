@@ -1,74 +1,69 @@
 import React, { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 
+import './agendar.css';
+
 import TestDriveApi from '../../Services/TestDriveApi'
 
 const api = new TestDriveApi();
 
 export default function Agendar() {
-    const [cliente, setCliente] = useState('')
-    const [funcionario, setFuncionario] = useState('')
-    const [marca, setMarca] = useState('')
-    const [modelo, setModelo] = useState('')
-    const [agendamento, setAgendamento] = useState('')
-    const request = {
-        cliente,
-        funcionario,
-        marca,
-        modelo,
-        agendamento
-    };
+
+    const [data, setData] = useState('')
+    const [hora, setHora] = useState('')
+    const [login, setLogin] = useState('')
+    const [carro, setCarro] = useState('')
 
     const salvarClick = async () => {
         const resp = await
-            api.cadastrar(request); 
-        return resp; 
+            api.agendar({
+                Data: data,
+                Hora: hora,
+                IdLogin: login,
+                IdCarro: carro
+            })
     }
 
     return(
-        <div>
-            <h1>Agendar Test Drive</h1>
+        <div className="agendar">
+            <div className="agendar-container">
+                <h1 className="agendar-title"><i>Agendar Test Drive</i></h1>
 
-            <div>
-                <input type="text" placeholder="Cliente"
-                       value={cliente}
-                       onChange={e => setCliente(e.target.value)}
-                />
+                <p><i>Agende agora se test.</i></p>
+
+                <div className="agendar-input">
+                    <label><i>Data do Test</i></label>
+                    <input type="date"
+                        value={data}
+                        onChange={e => setData(e.target.value)}
+                    />
+                </div>
+
+                <div className="agendar-input">
+                    <input type="text" placeholder="Hora"
+                        value={hora}
+                        onChange={e => setHora(e.target.value)}    
+                    />
+                </div>
+
+                <div className="agendar-input">
+                    <input type="number" placeholder="Login"
+                        value={login}
+                        onChange={e => setLogin(e.target.value)}
+                    />
+                </div>
+
+                <div className="agendar-input">
+                    <input type="number" placeholder="Carro"
+                        value={carro}
+                        onChange={e => setCarro(e.target.value)}
+                    />
+                </div>
+
+                <div className="agendar-button">
+                    <button onClick={salvarClick}>Agendar</button>
+                </div>
             </div>
-
-            <div>
-                 <input type="text" placeholder="Funcionario"
-                        value={funcionario}
-                        onChange={e => setFuncionario(e.target.value)}
-                />
-            </div>
-
-            <div>
-                <input type="text" placeholder="Marca"
-                        value={marca}
-                        onChange={e => setMarca(e.target.value)}    
-                />
-            </div>
-
-            <div>
-                <input type="text" placeholder="Modelo"
-                        value={modelo}
-                        onChange={e => setModelo(e.target.value)}
-                />
-            </div>
-
-            <div>
-                <label>Data do Test</label>
-                <input type="date" 
-                        value={agendamento}
-                        onChange={e => setAgendamento(e.target.value)}
-                />
-            </div>
-
-            <div>
-                <button onClick={salvarClick}>Agendar</button>
-            </div>
-
         </div>
     )
 }

@@ -1,0 +1,45 @@
+.login{
+    background-color: lightgreen;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container{
+    background-color: white;
+    height: 450px;
+    width: 400px;
+    border: 1px solid silver;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-title{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin-top: 50px;
+}
+
+.login-input input{
+    color: black;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: rgb(238, 234, 234);
+    padding: 5px;
+    height: 40px;
+    width: 250px;
+    margin: 5px;
+}
+
+.login-button button{
+    height: 35px;
+    width: 100px;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: lightgreen;
+    margin: 5px;
+}
